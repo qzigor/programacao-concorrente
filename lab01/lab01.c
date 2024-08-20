@@ -1,13 +1,20 @@
+/* Disciplina: Programacao Concorrente */
+/* Profa.: Silvana Rossetto */
+/* Laboratório: 1 */
+/* Aluno: Igor Queiroz de Oliveira */
+/* DRE: 121066452*/
+
 #include <stdio.h>
-#include <stdlib.h> 
+#include <stdlib.h>
 #include <pthread.h>
 
+int *initializeVector(int N);
+void toCheck(int *vector, int N);
 typedef struct{
     int *vector;
     int initial_index, end_index;
 } threadData;
 
-int *initializeVector(int N);
 
 void *Increment(void *args){
     int i;
@@ -21,6 +28,7 @@ void *Increment(void *args){
 
 int main(int argc, char* argv[]){
     int nthreads, vector_size, i;
+    int start=0, end=0;
 
     if(argc < 3){
       printf("--ERRO: informe a qtde de threads <%s> <nthreads>\n", argv[0]);
@@ -30,10 +38,6 @@ int main(int argc, char* argv[]){
     vector_size = atoi(argv[2]);
 
     int *vector = initializeVector(vector_size);
-    for(i=0; i<vector_size; i++){
-        printf("%d ", vector[i]);
-    }
-    printf("\n");
     
     pthread_t threads[nthreads];
     threadData *data;
@@ -46,12 +50,20 @@ int main(int argc, char* argv[]){
             printf("Erro no malloc\n");
             return 1;
         }
-        int start = i * elements_per_thread + (i < extra_elements ? i : extra_elements);
-        int end = start + elements_per_thread + (i < extra_elements ? 1 : 0);
 
-        data->vector = vector;
         data->initial_index = start;
+        if(extra_elements != 0){
+            end += elements_per_thread + 1;
+            start += elements_per_thread + 1;
+            extra_elements--;
+        }
+        else{
+            end += elements_per_thread;
+            start += elements_per_thread;
+        }
+
         data->end_index = end;
+        data->vector = vector;
 
         pthread_create(&threads[i], NULL, Increment, (void*)data);
     }
@@ -60,10 +72,7 @@ int main(int argc, char* argv[]){
         pthread_join(threads[i], NULL);
     }
 
-    for (i=0; i<vector_size; i++) {
-        printf("%d ", vector[i]);
-    }
-    printf("\n");
+    toCheck(vector, vector_size);
 
     free(vector);
 
@@ -84,4 +93,18 @@ int *initializeVector(int N){
     }
 
     return vector;
+}
+
+void toCheck(int *vector, int N){
+    int *auxiliary_vector = initializeVector(N);
+    int i;
+
+    for(i=0; i<N; i++){
+        if(vector[i] == auxiliary_vector[i] + 1){
+            continue;
+        }
+        else{
+            printf("Erro no incremento.\n");
+        }
+    }
 }
