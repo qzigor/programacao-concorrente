@@ -1,0 +1,3 @@
+## Sincronização de Threads em C com Mutex e Condições
+
+Este programa implementa a sincronização entre duas threads em C usando pthread_mutex e pthread_cond para controlar a execução e comunicação entre elas. A thread principal (ExecutaTarefa) incrementa uma variável compartilhada chamada soma até 100.000 e pausa sua execução sempre que o valor de soma for múltiplo de 10. Quando isso acontece, a thread de log (extra) é sinalizada para imprimir o valor de soma e, após imprimir os primeiros 20 múltiplos de 10, permite que a thread principal continue a execução. A sincronização é feita usando mutex para garantir exclusão mútua e condições de espera para coordenar o fluxo entre as threads.
