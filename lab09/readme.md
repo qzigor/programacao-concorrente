@@ -11,8 +11,8 @@ Conta números primos de 1 a N utilizando M goroutines, que verificam e somam qu
 
 ## Como Executar
 
-    Instale o Go.
-    Compile e execute os arquivos com:
-    ```
-    go run <nome_do_arquivo>.go
-    ```
+Instale o Go.
+Compile e execute os arquivos com:
+```
+go run <nome_do_arquivo>.go
+```
