@@ -1,14 +1,9 @@
-/* Disciplina: Programacao Concorrente */
-/* Profa.: Silvana Rossetto */
-/* Laboratório: 1 */
-/* Aluno: Igor Queiroz de Oliveira */
-/* DRE: 121066452*/
-
 #include <stdio.h>
 #include <stdlib.h>
 #include <pthread.h>
 
 int *initializeVector(int N);
+
 void toCheck(int *vector, int N);
 typedef struct{
     int *vector;
